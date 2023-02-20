@@ -1,0 +1,134 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]}]}}
+
+#!fsharp
+
+// say hi in Console
+printfn "Hello, World!"
+
+#!fsharp
+
+let isOdd value = value % 2 <> 0
+let square value = value * value
+let getOddSquares values = 
+    values 
+    |> List.filter isOdd 
+    |> List.map square
+
+getOddSquares [1..10]
+
+#!fsharp
+
+let xy = [ for x in [1..100] -> (x, square x) ]
+
+#r "nuget: Plotly.NET.Interactive, 3.0.2"
+#r "nuget: FSharp.Data"
+
+open FSharp.Data 
+open Plotly.NET
+
+Chart.Point(xy)
+
+#!csharp
+
+#r "nuget: SkiaSharp, 2.88.3"
+
+using SkiaSharp;
+
+// Create an image and fill it blue
+SKBitmap bmp = new(640, 480);
+SKCanvas canvas = new(bmp);
+canvas.Clear(SKColor.Parse("#003366"));
+
+// Draw lines with random positions and thicknesses
+Random rand = new(0);
+SKPaint paint = new() { Color = SKColors.White.WithAlpha(100), IsAntialias = true };
+for (int i = 0; i < 100; i++)
+{
+    SKPoint pt1 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
+    SKPoint pt2 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
+    paint.StrokeWidth = rand.Next(1, 10);
+    canvas.DrawLine(pt1, pt2, paint);
+}
+
+// Save the image to disk
+SKFileWStream fs = new("quickstart.jpg");
+bmp.Encode(fs, SKEncodedImageFormat.Jpeg, quality: 85);
+
+// get bmp as byte array
+var ms = new MemoryStream();
+bmp.Encode(ms, SKEncodedImageFormat.Jpeg, quality: 85);
+var bytes = ms.ToArray();
+
+#!fsharp
+
+#r "nuget: SkiaSharp, 2.88.3"
+
+open SkiaSharp
+open Microsoft.DotNet.Interactive.Formatting
+
+let conv (bmp: SKBitmap) =
+    use ms = new System.IO.MemoryStream()
+    bmp.Encode(ms, SKEncodedImageFormat.Png, quality = 100) |> ignore
+    bmp.Dispose()
+    ms.ToArray() |> System.Convert.ToBase64String
+
+// Register a formatter for the "image/png" MIME type
+Formatter.Register<SKBitmap> (conv,  "image/png")
+
+#!fsharp
+
+open SkiaSharp
+
+let genRandImg = 
+    // Create an image and fill it blue
+    let bmp = new SKBitmap(640, 480)
+    use canvas = new SKCanvas(bmp)
+
+    canvas.Clear(SKColor.Parse("#003366"))
+
+    // Draw lines with random positions and thicknesses
+    let rand = new Random(0)
+    use paint = new SKPaint(Color = SKColors.White.WithAlpha(byte 100), IsAntialias = true)
+    for i in 0..99 do
+        let pt1 = new SKPoint(float32 (rand.Next(bmp.Width)), float32 (rand.Next(bmp.Height)))
+        let pt2 = new SKPoint(float32 (rand.Next(bmp.Width)), float32 (rand.Next(bmp.Height)))
+        paint.StrokeWidth <- float32 (rand.Next(1, 10))
+        canvas.DrawLine(pt1, pt2, paint)
+
+    bmp
+
+// Display the PNG image
+display(genRandImg, "image/png")
+
+#!fsharp
+
+//let (:=) target value = target <- value
+
+let mutable x = 0
+x <- 1
+
+printfn "%d" x
+
+// // use := instead of <-
+
+// let inline (.=) (var: byref<'a>) (incValue: 'a) = var <- incValue
+
+let inline ( <-- ) (x: ^a byref) (v: ^a) : unit = x <- v
+
+x <-- 2
+
+// // x .= 2
+
+// let inline (+<-) (metable var: byref<'a>) (incValue: 'a) = var <- var + incValue
+
+// x +<- 2
+
+printfn "%d" x
+
+#!fsharp
+
+let v = ref 0
+let mutate r = 
+    r := 100
