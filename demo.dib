@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]},{"name":"vscode","languageName":null,"aliases":["frontend"]}]}}
 
 #!fsharp
 
@@ -100,7 +100,48 @@ let genRandImg =
     bmp
 
 // Display the PNG image
-display(genRandImg, "image/png")
+let bmp = genRandImg
+// Display the PNG image
+display(bmp, "image/png")
+bmp.Dispose()
+
+#!fsharp
+
+open SkiaSharp
+
+let genRandImg = 
+    let height = 480f
+    let width = 480f
+
+    // create SKImageInfo
+    let info = new SKImageInfo(int width, int height, SKColorType.Rgba8888, SKAlphaType.Premul)
+
+
+
+    // Create an image and fill it blue
+    let bmp = new SKBitmap(int width, int height)
+    use canvas = new SKCanvas(bmp)
+
+    canvas.Clear(SKColors.WhiteSmoke)
+
+    let rand = new Random(0)
+    use paint = new SKPaint(Color = SKColors.White.WithAlpha(byte 100), IsAntialias = true)
+
+    paint.Style <- SKPaintStyle.Stroke
+    paint.Color <- SKColors.Red
+    paint.StrokeWidth <- 25.0f
+    canvas.DrawCircle(height/2f, width/2f, 100f, paint);
+
+    paint.Style <- SKPaintStyle.Fill;
+    paint.Color <- SKColors.Blue;
+    canvas.DrawCircle(height/2f, width/2f, 100f, paint);
+
+    bmp
+
+let bmp = genRandImg
+// Display the PNG image
+display(bmp, "image/png")
+bmp.Dispose()
 
 #!fsharp
 
