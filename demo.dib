@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]},{"name":"vscode","aliases":["frontend"],"languageName":null}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]}]}}
 
 #!fsharp
 
@@ -30,38 +30,6 @@ open Plotly.NET
 
 Chart.Point(xy)
 
-#!csharp
-
-#r "nuget: SkiaSharp, 2.88.3"
-
-using SkiaSharp;
-using System.IO;
-
-// Create an image and fill it blue
-SKBitmap bmp = new(640, 480);
-SKCanvas canvas = new(bmp);
-canvas.Clear(SKColor.Parse("#003366"));
-
-// Draw lines with random positions and thicknesses
-Random rand = new(0);
-SKPaint paint = new() { Color = SKColors.White.WithAlpha(100), IsAntialias = true };
-for (int i = 0; i < 100; i++)
-{
-    SKPoint pt1 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
-    SKPoint pt2 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
-    paint.StrokeWidth = rand.Next(1, 10);
-    canvas.DrawLine(pt1, pt2, paint);
-}
-
-// Save the image to disk
-SKFileWStream fs = new("quickstart.jpg");
-bmp.Encode(fs, SKEncodedImageFormat.Jpeg, quality: 85);
-
-// get bmp as byte array
-var ms = new MemoryStream();
-bmp.Encode(ms, SKEncodedImageFormat.Jpeg, quality: 85);
-var bytes = ms.ToArray();
-
 #!fsharp
 
 #r "nuget: SkiaSharp, 2.88.3"
@@ -82,7 +50,7 @@ Formatter.Register<SKBitmap> (conv,  "image/png")
 
 open SkiaSharp
 
-let genRandImg = 
+let genRandImg () = 
     // Create an image and fill it blue
     let bmp = new SKBitmap(640, 480)
     use canvas = new SKCanvas(bmp)
@@ -90,7 +58,7 @@ let genRandImg =
     canvas.Clear(SKColor.Parse("#003366"))
 
     // Draw lines with random positions and thicknesses
-    let rand = new Random(0)
+    let rand = new Random()
     use paint = new SKPaint(Color = SKColors.White.WithAlpha(byte 100), IsAntialias = true)
     for i in 0..99 do
         let pt1 = new SKPoint(float32 (rand.Next(bmp.Width)), float32 (rand.Next(bmp.Height)))
@@ -101,10 +69,37 @@ let genRandImg =
     bmp
 
 // Display the PNG image
-let bmp = genRandImg
+let bmp = genRandImg()
 // Display the PNG image
-display(bmp, "image/png")
+let x = display(bmp, "image/png")
 bmp.Dispose()
+
+#!fsharp
+
+// Display the PNG image
+let bmps = genRandImg()
+// Display the PNG image
+display(bmps, "image/png")
+
+#!fsharp
+
+open Microsoft.DotNet.Interactive
+
+let timer = new Timers.Timer(2000.)
+let event = Async.AwaitEvent (timer.Elapsed) |> Async.Ignore
+
+timer.Start()
+while true do
+    Async.RunSynchronously event
+    printfn "%A" DateTime.Now
+
+0 // return an integer exit code
+
+#!html
+
+<span id="d">
+    <button onclick="() => console.log('Hello, world!')">Click me!</button>
+</span>
 
 #!fsharp
 
@@ -116,8 +111,6 @@ let genRandImg =
 
     // create SKImageInfo
     let info = new SKImageInfo(int width, int height, SKColorType.Rgba8888, SKAlphaType.Premul)
-
-
 
     // Create an image and fill it blue
     let bmp = new SKBitmap(int width, int height)
