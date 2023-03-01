@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]},{"name":"vscode","languageName":null,"aliases":["frontend"]}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]},{"name":"vscode","aliases":["frontend"],"languageName":null}]}}
 
 #!fsharp
 
@@ -35,6 +35,7 @@ Chart.Point(xy)
 #r "nuget: SkiaSharp, 2.88.3"
 
 using SkiaSharp;
+using System.IO;
 
 // Create an image and fill it blue
 SKBitmap bmp = new(640, 480);
