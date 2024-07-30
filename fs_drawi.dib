@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","aliases":[]}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
 
 #!fsharp
 
@@ -22,7 +22,7 @@ getOddSquares [1..10]
 
 let xy = [ for x in [1..100] -> (x, square x) ]
 
-#r "nuget: Plotly.NET.Interactive, 3.0.2"
+#r "nuget: Plotly.NET.Interactive, 5.0.0"
 #r "nuget: FSharp.Data"
 
 open FSharp.Data 
@@ -32,12 +32,13 @@ Chart.Point(xy)
 
 #!fsharp
 
-#r "nuget: SkiaSharp, 2.88.3"
+#r "nuget: SkiaSharp, 2.88.8"
+#r "nuget: SkiaSharp.NativeAssets.Linux, 2.88.8"
 
 open SkiaSharp
 open Microsoft.DotNet.Interactive.Formatting
 
-let conv (bmp: SKBitmap) =
+let conv (bmp: SKBitmap): string =
     use ms = new System.IO.MemoryStream()
     bmp.Encode(ms, SKEncodedImageFormat.Png, quality = 100) |> ignore
     bmp.Dispose()

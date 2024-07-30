@@ -1,0 +1,13 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
+
+#!csharp
+
+Console.WriteLine("Hello World");
+
+#!csharp
+
+using System.Drawing.Configuration;
+
+Console.WriteLine("test");
