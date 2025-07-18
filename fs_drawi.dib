@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp"},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"html","languageName":"HTML"},{"name":"http","languageName":"HTTP"},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"mermaid","languageName":"Mermaid"},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"value"}]}}
 
 #!fsharp
 
@@ -32,8 +32,8 @@ Chart.Point(xy)
 
 #!fsharp
 
-#r "nuget: SkiaSharp, 2.88.8"
-#r "nuget: SkiaSharp.NativeAssets.Linux, 2.88.8"
+#r "nuget: SkiaSharp, 3.119.0"
+#r "nuget: SkiaSharp.NativeAssets.Linux, 3.119.0"
 
 open SkiaSharp
 open Microsoft.DotNet.Interactive.Formatting

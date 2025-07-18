@@ -1,6 +1,6 @@
 #!meta
 
-{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"languageName":"csharp","name":"csharp"}]}}
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","languageName":"csharp"},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"html","languageName":"HTML"},{"name":"http","languageName":"HTTP"},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"mermaid","languageName":"Mermaid"},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"value"}]}}
 
 #!csharp
 
@@ -29,28 +29,8 @@ Chart.Point<double, double, string>(
 
 #!csharp
 
-using SkiaSharp;
-using System.IO;
-using Microsoft.DotNet.Interactive.Formatting;
-
-string SKBitmapPrint(SKBitmap bitmap) {
-    using (MemoryStream ms = new())
-    {
-        bitmap.Encode(ms, SKEncodedImageFormat.Png, 100);
-        byte[] data = ms.ToArray();
-
-        var b64 = Convert.ToBase64String(data);
-
-        return b64;
-    }
-}
-
-Formatter.Register<SKBitmap> (SKBitmapPrint,  "image/png")
-
-#!csharp
-
-#r "nuget: SkiaSharp, 2.88.8"
-#r "nuget: SkiaSharp.NativeAssets.Linux, 2.88.8"
+#r "nuget: SkiaSharp, 3.119.0"
+#r "nuget: SkiaSharp.NativeAssets.Linux, 3.119.0"
 
 using SkiaSharp;
 
@@ -71,3 +51,23 @@ for (int i = 0; i < 100; i++)
 }
 
 display(bmp);
+
+#!csharp
+
+using SkiaSharp;
+using System.IO;
+using Microsoft.DotNet.Interactive.Formatting;
+
+string SKBitmapPrint(SKBitmap bitmap) {
+    using (MemoryStream ms = new())
+    {
+        bitmap.Encode(ms, SKEncodedImageFormat.Png, 100);
+        byte[] data = ms.ToArray();
+
+        var b64 = Convert.ToBase64String(data);
+
+        return b64;
+    }
+}
+
+Formatter.Register<SKBitmap> (SKBitmapPrint,  "image/png")
